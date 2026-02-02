@@ -1,33 +1,25 @@
 import streamlit as st
 import urllib.parse
 
-# 1. Page Configuration
+# 1. Page Configuration & UI Cleanup
 st.set_page_config(page_title="SafeCheck", page_icon="🛡️", layout="centered")
 
-# Hide Streamlit UI Elements
-hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            [data-testid="stHeader"] {display:none;}
-            </style>
-            """
-st.markdown(hide_st_style, unsafe_allow_html=True)
-
-# Button Styling
 st.markdown("""
     <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    [data-testid="stHeader"] {display:none;}
     div.stButton > button:first-child {
         height: 3.5em;
         font-size: 18px;
         font-weight: bold;
         border-radius: 12px;
-        margin-bottom: 10px;
     }
-    </style>""", unsafe_allow_html=True)
+    </style>
+    """, unsafe_allow_html=True)
 
-# 2. App Content
+# 2. App Logic
 st.title("🛡️ Universal Check-In")
 
 DEFAULT_MSG = "I am okay, safe, and all is good in life! ❤️"
@@ -36,32 +28,50 @@ encoded_msg = urllib.parse.quote(custom_message)
 
 st.write("### Choose a Chat App:")
 
-# 3. Share Links Logic
-# WhatsApp: No phone number = opens contact selector
-wa_share = f"whatsapp://send?text={encoded_msg}"
+# 3. Native Share Script (The Magic for Messenger)
+# This JavaScript triggers the phone's actual share menu
+share_js = f"""
+<script>
+function share() {{
+    if (navigator.share) {{
+        navigator.share({{
+            text: `{custom_message}`
+        }}).then(() => {{
+            console.log('Thanks for sharing');
+        }})
+        .catch(console.error);
+    }} else {{
+        alert('Share not supported on this browser');
+    }}
+}}
+</script>
+<button onclick="share()" style="
+    width: 100%;
+    height: 3.5em;
+    background-color: #0084FF;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+">🟦 Messenger / All Apps</button>
+"""
 
-# Viber: The 'Forward' style you liked
-viber_share = f"viber://forward?text={encoded_msg}"
-
-# SMS: No phone number = opens new message screen
-sms_share = f"sms:&body={encoded_msg}"
-
-# Messenger: Standard share link (requires manual contact selection)
-fb_share = f"https://www.facebook.com/dialog/send?link=https://google.com&app_id=123456789&redirect_uri=https://google.com"
-
-# 4. The Grid
+# 4. The Layout
 col1, col2 = st.columns(2)
 
 with col1:
-    st.link_button("🟢 WhatsApp", wa_share, use_container_width=True)
-    st.link_button("💜 Viber", viber_share, use_container_width=True)
+    # WhatsApp
+    st.link_button("🟢 WhatsApp", f"whatsapp://send?text={encoded_msg}", use_container_width=True)
+    # Viber
+    st.link_button("💜 Viber", f"viber://forward?text={encoded_msg}", use_container_width=True)
 
 with col2:
-    st.link_button("🔵 iMessage/SMS", sms_share, use_container_width=True)
-    # Using the copy method for Messenger as it is the most reliable
-    if st.button("🟦 Messenger (Copy)", use_container_width=True):
-        st.code(custom_message, language=None)
-        st.info("Now open Messenger and paste.")
+    # SMS/iMessage
+    st.link_button("🔵 iMessage/SMS", f"sms:&body={encoded_msg}", use_container_width=True)
+    # Messenger Fallback (The JS Button)
+    st.components.v1.html(share_js, height=70)
 
 st.divider()
-st.caption("Tap an app, choose your contact, and hit send.")
+st.caption("The Blue button triggers your phone's 'Share' menu. Pick Messenger from the list!")
