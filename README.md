@@ -20,3 +20,19 @@ To make this feel like a native app:
 1. Clone this repo.
 2. Install requirements: `pip install streamlit`.
 3. Run locally: `streamlit run app.py`.
+
+
+# SafeCheck Plus 🛡️
+
+## Setup Requirements
+To make the buttons work, update the following in `app.py`:
+
+1. **Phone Number:** Use international format without the `+` (e.g., `447123456789`).
+2. **FB Username:** - Go to your Facebook Profile.
+   - Look at the URL: `facebook.com/your.username`. 
+   - Copy that username into the `FB_USERNAME` variable.
+
+## Platform Behavior
+- **WhatsApp/SMS:** Fully pre-fills the message.
+- **Viber:** Opens the chat (behavior varies by device).
+- **Messenger:** Opens the direct chat, but you must paste the message (Facebook's privacy limit).
