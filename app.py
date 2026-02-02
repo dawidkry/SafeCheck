@@ -50,11 +50,10 @@ with col1:
 
 with col2:
     # iMessage / SMS - Pre-fills text & recipient
-    # Note: iOS uses '&', Android often uses '?' or ';'
     sms_url = f"sms:{PHONE_NUMBER}&body={encoded_msg}"
     st.link_button("🔵 iMessage/SMS", sms_url, use_container_width=True)
 
-    # Messenger - Opens chat window only (Manual paste required)
+    # Messenger - Opens chat window only
     fb_url = f"https://m.me/{FB_USERNAME}"
     st.link_button("🟦 Messenger", fb_url, use_container_width=True)
 
@@ -62,4 +61,10 @@ with col2:
 st.divider()
 st.info("💡 **Tip for Messenger:** Facebook doesn't allow auto-filling text. Click the button below to copy your message before opening Messenger.")
 
+# FIXED LINE BELOW:
+if st.button("📋 Copy Message for Messenger", use_container_width=True):
+    st.code(custom_message, language=None)
+    st.success("Text shown above! Long-press to copy, then tap Messenger.")
+
+st.caption(f"Configured Recipient: {PHONE_NUMBER}")
 if st.button("📋 Copy Message for Messenger", use_container_width=True
