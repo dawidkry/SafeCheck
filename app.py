@@ -9,7 +9,7 @@ PHONE_NUMBER = "1234567890"  # Format: CountryCode + Number (No + sign)
 FB_USERNAME = "your.fb.username"  # Find this in your FB Profile settings
 DEFAULT_MSG = "I am okay, safe, and all is good in life! ❤️"
 
-st.title("🛡️ Safety Check-In")
+st.title("🛡️ SafeCheck")
 
 # 1. Last-second customization
 custom_message = st.text_area("Edit your status:", value=DEFAULT_MSG, height=100)
