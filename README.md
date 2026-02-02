@@ -1,6 +1,3 @@
-# Check-In
-Send rapid pre-written responses to family and friends with a single click. Efficient and convenient. 
-
 # SafeCheck 🛡️
 
 A simple, Python-powered web application designed for one-tap safety check-ins with family.
