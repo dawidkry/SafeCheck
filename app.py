@@ -5,10 +5,12 @@ from datetime import datetime
 # 1. Config
 st.set_page_config(page_title="SafeCheck", layout="centered")
 
-# 2. Styles (Sans-Serif Font)
-st.markdown("<style>#MainMenu,footer,header{display:none;}"
-".stApp{background-color:#0E1117;color:white;font-family:sans-serif;}"
-".stTextArea textarea{border-radius:15px;font-family:sans-serif;"
+# 2. Styles (Hiding UI Elements & Setting Font)
+st.markdown("<style>"
+"header, footer, .stDeployButton, [data-testid='stToolbar'] {display:none !important;}"
+"#MainMenu {visibility: hidden;}"
+".stApp {background-color:#0E1117;color:white;font-family:sans-serif;}"
+".stTextArea textarea {border-radius:15px;font-family:sans-serif;"
 "background-color:#161B22;color:white;border:2px solid #30363D;}</style>", 
 unsafe_allow_html=True)
 
@@ -28,7 +30,7 @@ V_I = B + "ios-filled/50/ffffff/viber.png"
 M_I = B + "material-sharp/48/ffffff/facebook-messenger.png"
 O_I = B + "ios-glyphs/60/ffffff/external-link.png"
 
-# 5. Button Style (Fixed Sans-Serif)
+# 5. Button Style
 S = "height:75px;border-radius:18px;display:flex;"
 S += "align-items:center;justify-content:center;"
 S += "font-weight:600;font-size:15px;gap:10px;"
