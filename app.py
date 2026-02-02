@@ -5,10 +5,15 @@ from datetime import datetime
 # 1. Config
 st.set_page_config(page_title="SafeCheck", layout="centered")
 
-# 2. Styles (Hiding UI Elements & Setting Font)
+# 2. Advanced CSS to scrub ALL Streamlit branding
 st.markdown("<style>"
-"header, footer, .stDeployButton, [data-testid='stToolbar'] {display:none !important;}"
-"#MainMenu {visibility: hidden;}"
+# Hides the top toolbar and deploy button
+"header, .stDeployButton, [data-testid='stToolbar'] {display:none !important;}"
+# Hides the bottom footer and the 'Manage App' manhole
+"footer, [data-testid='stStatusWidget'], .stApp [data-testid='stDecoration'] {display:none !important;}"
+# Hides the Main Menu (hamburger) and any viewer/personal icons
+"#MainMenu, [data-testid='stAvatar'], .st-emotion-cache-1vq4p4l {display:none !important;}"
+# Visual styling
 ".stApp {background-color:#0E1117;color:white;font-family:sans-serif;}"
 ".stTextArea textarea {border-radius:15px;font-family:sans-serif;"
 "background-color:#161B22;color:white;border:2px solid #30363D;}</style>", 
