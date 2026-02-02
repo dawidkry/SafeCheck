@@ -31,7 +31,7 @@ encoded_msg = urllib.parse.quote(custom_message)
 
 st.write("### Choose your app:")
 
-# 5. The Grid (Constructed as a list to prevent line-break errors)
+# 5. The Grid (Updated iMessage to Baby Blue)
 html_lines = [
     '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: sans-serif;">',
     
@@ -40,9 +40,9 @@ html_lines = [
     '<div style="background-color:#25D366; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">',
     '<img src="https://img.icons8.com/material-outlined/48/ffffff/whatsapp.png" width="28" height="28"/>WhatsApp</div></a>',
     
-    # iMessage
+    # iMessage (BABY BLUE: #89CFF0)
     f'<a href="sms:&body={encoded_msg}" style="text-decoration:none;">',
-    '<div style="background-color:#34C759; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">',
+    '<div style="background-color:#89CFF0; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">',
     '<img src="https://img.icons8.com/ios-filled/50/ffffff/speech-bubble.png" width="24" height="24"/>iMessage</div></a>',
     
     # Viber
