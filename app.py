@@ -8,7 +8,7 @@ st.set_page_config(page_title="SafeCheck", page_icon="🛡️", layout="centered
 st.markdown("""
     <style>
     #MainMenu, footer, header, [data-testid="stHeader"] {visibility: hidden; display:none;}
-    .stTextArea textarea { border-radius: 15px; border: 1px solid #ddd; }
+    .stTextArea textarea { border-radius: 15px; border: 1px solid #ddd; padding: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -21,35 +21,39 @@ encoded_msg = urllib.parse.quote(custom_message)
 
 st.write("### Choose your app:")
 
-# 4. The Custom Button Grid (HTML/JS)
-# This replaces the col1/col2 logic with a more stable CSS grid
+# 4. The Custom Button Grid with Official Logos
+# Using SimpleIcons CDN for official brand marks
 grid_html = f"""
 <div style="
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    font-family: sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 ">
     <a href="whatsapp://send?text={encoded_msg}" style="text-decoration:none;">
-        <div style="background-color:#25D366; color:white; height:70px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:16px;">
-            🟢 WhatsApp
+        <div style="background-color:#25D366; color:white; height:70px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px;">
+            <img src="https://cdn.simpleicons.org/whatsapp/white" width="24" height="24" />
+            WhatsApp
         </div>
     </a>
 
     <a href="sms:&body={encoded_msg}" style="text-decoration:none;">
-        <div style="background-color:#007AFF; color:white; height:70px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:16px;">
-            🔵 iMessage/SMS
+        <div style="background-color:#000000; color:white; height:70px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px;">
+            <img src="https://cdn.simpleicons.org/apple/white" width="24" height="24" />
+            iMessage
         </div>
     </a>
 
     <a href="viber://forward?text={encoded_msg}" style="text-decoration:none;">
-        <div style="background-color:#7360F2; color:white; height:70px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:16px;">
-            💜 Viber
+        <div style="background-color:#7360F2; color:white; height:70px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px;">
+            <img src="https://cdn.simpleicons.org/viber/white" width="24" height="24" />
+            Viber
         </div>
     </a>
 
-    <div onclick="shareNative()" style="background-color:#0084FF; color:white; height:70px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:16px; cursor:pointer;">
-        🟦 Messenger / All
+    <div onclick="shareNative()" style="background-color:#0084FF; color:white; height:70px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; cursor:pointer;">
+        <img src="https://cdn.simpleicons.org/facebookmessenger/white" width="24" height="24" />
+        Messenger
     </div>
 </div>
 
@@ -58,7 +62,7 @@ function shareNative() {{
     if (navigator.share) {{
         navigator.share({{ text: `{custom_message}` }});
     }} else {{
-        alert('Browser does not support native sharing.');
+        alert('Sharing not supported on this browser.');
     }}
 }}
 </script>
@@ -68,4 +72,4 @@ function shareNative() {{
 st.components.v1.html(grid_html, height=180)
 
 st.divider()
-st.caption("Once you tap an app, just select your contact and hit send.")
+st.caption("Official Safety Dashboard • Pick a contact to send.")
