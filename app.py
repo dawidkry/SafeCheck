@@ -60,4 +60,13 @@ h.append("<img src='%s' width='26'/>Messenger</div>" % M_I)
 
 # Others
 h.append("<div onclick='sh()' style='grid-column:span 2;background-color:#30363D;color:white;cursor:pointer;%s'>" % S)
-h.append("<img src='%s' width='24'/>Other Apps</div>" %
+h.append("<img src='%s' width='24'/>Other Apps</div>" % O_I)
+
+# JS
+cl = txt.replace("\n", " ")
+h.append("</div><script>function sh(){if(navigator.share){")
+h.append("navigator.share({text:'%s'});" % cl)
+h.append("}else{alert('Try another app');}}</script>")
+
+st.components.v1.html("".join(h), height=320)
+st.caption("Official Safety Dashboard")
