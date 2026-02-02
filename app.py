@@ -65,3 +65,35 @@ html_lines = [
     f'<a href="sms:&body={encoded_msg}" style="text-decoration:none;">',
     '<div style="background-color:#007AFF; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">',
     '<img src="https://img.icons8.com/ios-filled/50/ffffff/speech-bubble.png" width="24" height="24"/>iMessage</div></a>',
+    
+    # Viber
+    f'<a href="viber://forward?text={encoded_msg}" style="text-decoration:none;">',
+    '<div style="background-color:#7360F2; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">',
+    '<img src="https://img.icons8.com/ios-filled/50/ffffff/viber.png" width="24" height="24"/>Viber</div></a>',
+
+    # Messenger
+    '<div onclick="shareNative()" style="background-color:#0084FF; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">',
+    '<img src="https://img.icons8.com/material-sharp/48/ffffff/facebook-messenger.png" width="26" height="26"/>Messenger</div>',
+    
+    # Other Apps (Universal Share)
+    f'<div onclick="shareNative()" style="grid-column: span 2; background-color:#30363D; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">',
+    '<img src="https://img.icons8.com/ios-glyphs/60/ffffff/external-link.png" width="24" height="24"/>Other Apps</div>',
+    
+    '</div>',
+    
+    '<script>',
+    'function shareNative() {',
+    '  if (navigator.share) {',
+    f'    navigator.share({{ text: "{custom_message}" }});',
+    '  } else {',
+    '    alert("Sharing not supported");',
+    '  }',
+    '}',
+    '</script>'
+]
+
+html_final = "".join(html_lines)
+st.components.v1.html(html_final, height=280)
+
+st.divider()
+st.caption("Official Safety Dashboard • Permanent Dark Mode Active")
