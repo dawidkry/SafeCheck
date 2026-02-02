@@ -5,53 +5,28 @@ from datetime import datetime
 # 1. Page Configuration
 st.set_page_config(page_title="SafeCheck", page_icon="🛡️", layout="centered")
 
-# 2. Permanent Dark Mode & Button Styling
+# 2. Permanent Dark Mode & Layout CSS
 st.markdown("""
     <style>
-    /* Hide Streamlit UI Decorations */
     #MainMenu, footer, header, [data-testid="stHeader"] {visibility: hidden; display:none;}
     
-    /* Force Background Color */
-    .stApp { background-color: #0E1117; color: #FFFFFF; }
+    .stApp {
+        background-color: #0E1117;
+        color: #FFFFFF;
+    }
 
-    /* Style the Text Area */
     .stTextArea textarea { 
-        border-radius: 15px; border: 2px solid #30363D; 
-        background-color: #161B22 !important; color: white !important;
-    }
-
-    /* THE FIX: Universal Button Styling */
-    /* This makes every link button look like our previous boxes */
-    div.stLinkButton > a, div.stButton > button {
-        height: 75px !important;
-        width: 100% !important;
-        border-radius: 18px !important;
-        border: none !important;
-        font-size: 16px !important;
-        font-weight: 600 !important;
+        border-radius: 15px; 
+        border: 2px solid #30363D; 
+        background-color: #161B22 !important;
         color: white !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-decoration: none !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
-        transition: transform 0.1s !important;
+        font-size: 16px;
     }
-    div.stLinkButton > a:active { transform: scale(0.98); }
 
-    /* Brand Specific Colors */
-    /* WhatsApp */
-    div[data-testid="stHorizontalBlock"] > div:nth-child(1) div:nth-child(1) a { background-color: #25D366 !important; }
-    /* Viber */
-    div[data-testid="stHorizontalBlock"] > div:nth-child(1) div:nth-child(2) a { background-color: #7360F2 !important; }
-    /* iMessage */
-    div[data-testid="stHorizontalBlock"] > div:nth-child(2) div:nth-child(1) a { background-color: #007AFF !important; }
-    /* Messenger/Share */
-    div[data-testid="stVerticalBlock"] > div:nth-child(5) button { background-color: #0084FF !important; }
-    /* Others */
-    div[data-testid="stVerticalBlock"] > div:nth-child(6) button { background-color: #30363D !important; }
-
-    h1, h3 { color: white !important; }
+    /* Style for the HTML container to prevent it from being blocked */
+    .element-container iframe {
+        border-radius: 18px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -61,42 +36,35 @@ timestamp = now.strftime("%I:%M %p")
 
 # 4. App Content
 st.title("🛡️ SafeCheck")
+
 DEFAULT_MSG = f"I am okay, safe, and all is good in life! ❤️\n(Sent at {timestamp})"
 custom_message = st.text_area("Final Message Preview:", value=DEFAULT_MSG, height=140)
 encoded_msg = urllib.parse.quote(custom_message)
 
 st.write("### Choose your app:")
 
-# 5. The Native Grid
-col1, col2 = st.columns(2)
-
-with col1:
-    st.link_button("🟢 WhatsApp", f"whatsapp://send?text={encoded_msg}", use_container_width=True)
-    st.link_button("💜 Viber", f"viber://forward?text={encoded_msg}", use_container_width=True)
-
-with col2:
-    st.link_button("🔵 iMessage", f"sms:&body={encoded_msg}", use_container_width=True)
+# 5. The Grid (Using target="_top" to ensure links break out of the frame)
+html_lines = [
+    '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: sans-serif;">',
     
-    # Messenger "Share" functionality
-    # Using a native button to trigger a browser share is more reliable
-    if st.button("🟦 Messenger", use_container_width=True):
-        st.components.v1.html(f"""
-            <script>
-            if (navigator.share) {{
-                navigator.share({{ text: "{custom_message}" }});
-            }} else {{
-                alert("Please copy/paste or use a different app.");
-            }}
-            </script>
-        """, height=0)
+    # WhatsApp - target="_top" is the secret to making these work on mobile
+    f'<a href="whatsapp://send?text={encoded_msg}" target="_top" style="text-decoration:none;">',
+    '<div style="background-color:#25D366; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">',
+    '<img src="https://img.icons8.com/material-outlined/48/ffffff/whatsapp.png" width="28" height="28"/>WhatsApp</div></a>',
+    
+    # iMessage
+    f'<a href="sms:&body={encoded_msg}" target="_top" style="text-decoration:none;">',
+    '<div style="background-color:#007AFF; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">',
+    '<img src="https://img.icons8.com/ios-filled/50/ffffff/speech-bubble.png" width="24" height="24"/>iMessage</div></a>',
+    
+    # Viber
+    f'<a href="viber://forward?text={encoded_msg}" target="_top" style="text-decoration:none;">',
+    '<div style="background-color:#7360F2; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">',
+    '<img src="https://img.icons8.com/ios-filled/50/ffffff/viber.png" width="24" height="24"/>Viber</div></a>',
 
-# Full width "Other" button
-if st.button("🔗 Other Apps", use_container_width=True):
-    st.components.v1.html(f"""
-        <script>
-        navigator.share({{ text: "{custom_message}" }});
-        </script>
-    """, height=0)
-
-st.divider()
-st.caption("Official Safety Dashboard • Reliable Link Mode")
+    # Messenger
+    '<div onclick="shareNative()" style="background-color:#0084FF; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">',
+    '<img src="https://img.icons8.com/material-sharp/48/ffffff/facebook-messenger.png" width="26" height="26"/>Messenger</div>',
+    
+    # Other Apps
+    f'<div onclick="shareNative()" style="grid-column: span 2; background-color:#30363D; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:
