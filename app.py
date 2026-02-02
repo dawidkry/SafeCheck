@@ -25,19 +25,26 @@ timestamp = now.strftime("%I:%M %p")
 # 4. App Content
 st.title("🛡️ SafeCheck")
 
-DEFAULT_MSG = "I am okay, safe, and all is good in life! ❤️\n(Sent at " + timestamp + ")"
+DEFAULT_MSG = f"I am okay, safe, and all is good in life! ❤️\n(Sent at {timestamp})"
 custom_message = st.text_area("Final Message Preview:", value=DEFAULT_MSG, height=140)
 encoded_msg = urllib.parse.quote(custom_message)
 
 st.write("### Choose your app:")
 
-# 5. The Grid (Constructed via concatenation to avoid triple-quote errors)
-html_start = """
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: sans-serif;">
-    <a href="whatsapp://send?text=""" + encoded_msg + """" style="text-decoration:none;">
-        <div style="background-color:#25D366; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <img src="https://img.icons8.com/material-outlined/48/ffffff/whatsapp.png" width="28" height="28"/>
-            WhatsApp
-        </div>
-    </a>
-    <a href="sms:&body=""" + encoded_msg + """" style="text-decoration:none
+# 5. The Grid (Using Single Quotes for Python to avoid clash)
+html_code = (
+    '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: sans-serif;">'
+    
+    # WhatsApp
+    '<a href="whatsapp://send?text=' + encoded_msg + '" style="text-decoration:none;">'
+    '<div style="background-color:#25D366; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">'
+    '<img src="https://img.icons8.com/material-outlined/48/ffffff/whatsapp.png" width="28" height="28"/>WhatsApp</div></a>'
+    
+    # iMessage
+    '<a href="sms:&body=' + encoded_msg + '" style="text-decoration:none;">'
+    '<div style="background-color:#34C759; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:15px; gap:10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">'
+    '<img src="https://img.icons8.com/ios-filled/50/ffffff/speech-bubble.png" width="24" height="24"/>iMessage</div></a>'
+    
+    # Viber
+    '<a href="viber://forward?text=' + encoded_msg + '" style="text-decoration:none;">'
+    '<div style="background-color:#7360F2; color:white; height:75px; border-radius:18px; display:flex; align-items:center; justify-
